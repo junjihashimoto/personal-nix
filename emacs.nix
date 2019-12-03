@@ -1,8 +1,25 @@
 { pkgs ? import <nixpkgs> {} }:
 
+# See https://nixos.org/nixos/manual/#module-services-emacs
+
 let
-  myEmacs = pkgs.emacs25;
+  myEmacs = pkgs.emacs26;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+  my-config = (epkgs: pkgs.emacsPackages.trivialBuild {
+    pname = "my-mode";
+    version = "2019-12-03";
+    src = pkgs.writeText "default.el" ''
+      (package-initialize)
+      (global-set-key "\C-x\C-g" 'goto-line)
+      (autoload 'lsp-mode "lsp-mode" nil t)
+      (setq lsp-prefer-flymake nil)
+      (add-hook 'haskell-mode-hook #'lsp)
+      (autoload 'lsp-ui "lsp-ui" nil t)
+      (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+      (add-hook 'haskell-mode-hook 'flycheck-mode)
+      (autoload 'lsp-haskell "lsp-haskell" nil t)
+    '';
+  });
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages;[
   ]) ++ (with epkgs.melpaPackages;[
@@ -19,4 +36,5 @@ in
     epkgs.lsp-ui
     epkgs.lsp-haskell
     epkgs.yasnippet
+    (my-config epkgs)
   ])
