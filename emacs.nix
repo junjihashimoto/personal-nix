@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 # See https://nixos.org/nixos/manual/#module-services-emacs
 
@@ -20,6 +20,11 @@ let
       (add-hook 'haskell-mode-hook 'flycheck-mode)
       (autoload 'lsp-haskell "lsp-haskell" nil t)
       (setq default-input-method "japanese-anthy")
+      (define-key global-map [?¥] nil)
+      (define-key local-function-key-map [?¥] [?\\])
+      (define-key local-function-key-map [?\C-¥] [?\C-\\])
+      (define-key local-function-key-map [?\M-¥] [?\M-\\])
+      (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
     '';
   });
 in

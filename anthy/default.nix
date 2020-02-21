@@ -1,9 +1,10 @@
-{ stdenv, fetchgit }:
+{ stdenv, fetchgit,pkgs }:
 
 stdenv.mkDerivation {
   name = "anthy-mode";
 
   src = ./src;
+  buildInputs = [pkgs.anthy];
 
   installPhase = ''
     mkdir -p $out/share/emacs/site-lisp
