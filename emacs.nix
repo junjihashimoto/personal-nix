@@ -5,7 +5,8 @@
 let
   myEmacs = pkgs.emacs26;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
-  anthy-mode = pkgs.emacsPackages.callPackage ./anthy {};
+  anthy-mode = pkgs.emacsPackages.callPackage ./anthy-mode {};
+  vrml-mode = pkgs.emacsPackages.callPackage ./vrml-mode {};
   my-config = (epkgs: pkgs.emacsPackages.trivialBuild {
     pname = "my-mode";
     version = "2019-12-03";
@@ -25,17 +26,21 @@ let
       (define-key local-function-key-map [?\C-¥] [?\C-\\])
       (define-key local-function-key-map [?\M-¥] [?\M-\\])
       (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
+      (autoload 'vrml-mode "vrml-mode" "VRML mode." t)
+      (setq auto-mode-alist (append '(("\\.wrl\\'" . vrml-mode))
+                                    auto-mode-alist))
+      (setq auto-mode-alist (append '(("\\.wbt\\'" . vrml-mode))
+                                    auto-mode-alist))
     '';
   });
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages;[
   ]) ++ (with epkgs.melpaPackages;[
     wgrep
- #    vrml-mode
   ]) ++ (with epkgs.elpaPackages;[
   ]) ++ [
     anthy-mode
- #   epkgs.mozc
+    vrml-mode
     epkgs.yaml-mode
     epkgs.nix-mode
     epkgs.php-mode
