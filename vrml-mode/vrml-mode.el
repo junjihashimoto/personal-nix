@@ -45,14 +45,14 @@
 ;; User variables.
 ;;
 
-(defvar vrml-indent-level 3
+(defvar vrml-indent-level 2
   "*Indentation of VRML statements with respect to containing block.")
 
 (defvar vrml-in-squarebrace-sexp-indent-level 1
   "*Indentation of VRML statements when at to level of square brace sexps.
 NOTE that 'children' sexps are indented with 'vrml-indent-level'")
 
-(defvar vrml-children-indent-level 3
+(defvar vrml-children-indent-level 2
   "*Indentation of VRML nodes within children fields.")
 
 (defvar vrml-auto-newline nil

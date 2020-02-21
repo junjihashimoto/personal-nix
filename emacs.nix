@@ -27,9 +27,7 @@ let
       (define-key local-function-key-map [?\M-¥] [?\M-\\])
       (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
       (autoload 'vrml-mode "vrml-mode" "VRML mode." t)
-      (setq auto-mode-alist (append '(("\\.wrl\\'" . vrml-mode))
-                                    auto-mode-alist))
-      (setq auto-mode-alist (append '(("\\.wbt\\'" . vrml-mode))
+      (setq auto-mode-alist (append '(("\\.wrl\\'" . vrml-mode) ("\\.wbt\\'" . vrml-mode))
                                     auto-mode-alist))
     '';
   });
