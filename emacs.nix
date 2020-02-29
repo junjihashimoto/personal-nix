@@ -29,6 +29,9 @@ let
       (autoload 'vrml-mode "vrml-mode" "VRML mode." t)
       (setq auto-mode-alist (append '(("\\.wrl\\'" . vrml-mode) ("\\.wbt\\'" . vrml-mode))
                                     auto-mode-alist))
+      (menu-bar-mode 0)
+      (tool-bar-mode 0)
+      (scroll-bar-mode 0)
     '';
   });
 in
@@ -39,6 +42,8 @@ in
   ]) ++ [
     anthy-mode
     vrml-mode
+ #   epkgs.mozc
+    epkgs.typescript-mode
     epkgs.yaml-mode
     epkgs.nix-mode
     epkgs.php-mode
