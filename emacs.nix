@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ sources ? import ./nix/sources.nix {},
+  pkgs ? import sources.nixpkgs {}
+}:
 
 # See https://nixos.org/nixos/manual/#module-services-emacs
 
@@ -13,12 +15,13 @@ let
     src = pkgs.writeText "default.el" ''
       (package-initialize)
       (global-set-key "\C-x\C-g" 'goto-line)
-      (autoload 'lsp-mode "lsp-mode" nil t)
-      (setq lsp-prefer-flymake nil)
-      (add-hook 'haskell-mode-hook #'lsp)
-      (autoload 'lsp-ui "lsp-ui" nil t)
-      (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-      (add-hook 'haskell-mode-hook 'flycheck-mode)
+      (autoload 'lsp "lsp" nil t)
+      ;(setq lsp-prefer-flymake nil)
+      ;(add-hook 'haskell-mode-hook #'lsp)
+      ;(autoload 'lsp-ui "lsp-ui" nil t)
+      ;(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+      (add-hook 'haskell-mode-hook 'lsp)
+      (setq lsp-haskell-process-path-hie "haskell-language-server")
       (autoload 'lsp-haskell "lsp-haskell" nil t)
       (setq default-input-method "japanese-anthy")
       (define-key global-map [?¥] nil)
@@ -33,6 +36,15 @@ let
       (tool-bar-mode 0)
       (scroll-bar-mode 0)
       (setq ring-bell-function 'ignore)
+      (defun seq-do-indexed (function sequence)
+  "Apply FUNCTION to each element of SEQUENCE and return nil.
+Unlike `seq-map', FUNCTION takes two arguments: the element of
+the sequence, and its index within the sequence."
+  (let ((index 0))
+    (seq-do (lambda (elt)
+               (funcall function elt index)
+               (setq index (1+ index)))
+             sequence)))
     '';
   });
 in

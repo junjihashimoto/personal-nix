@@ -6,7 +6,8 @@ GTK_IM_MODULE=fcitx
 QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 
-Xvfb :99 -screen 0 1920x1080x24 +extension GLX +render -noreset 2> xvfb.log & 
+#Xvfb :99 -screen 0 1920x1080x24 +extension GLX +render -noreset 2> xvfb.log &
+Xvfb :99 -screen 0 1024x768x24 +extension GLX +render -noreset 2> xvfb.log & 
 if [ ! -f ~/.vnc/passwd ] ; then
     vncpasswd
 fi
@@ -15,5 +16,5 @@ sleep 3
 fcitx -r &
 mlterm -k esc&
 x11vnc -display :99 -shared -forever -repeat -rfbauth ~/.vnc/passwd -xkb 2> vnc.log &
+while ! pulseaudio ; do sleep 1 ; done&
 wait
-
