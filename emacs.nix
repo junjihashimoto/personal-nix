@@ -5,7 +5,7 @@
 # See https://nixos.org/nixos/manual/#module-services-emacs
 
 let
-  myEmacs = pkgs.emacs26;
+  myEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   anthy-mode = pkgs.emacsPackages.callPackage ./anthy-mode {};
   vrml-mode = pkgs.emacsPackages.callPackage ./vrml-mode {};
@@ -19,9 +19,14 @@ let
       ;(setq lsp-prefer-flymake nil)
       ;(add-hook 'haskell-mode-hook #'lsp)
       ;(autoload 'lsp-ui "lsp-ui" nil t)
-      ;(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+      (add-hook 'lsp-mode-hook (lambda () (progn
+        (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
+        (lsp-ui-mode)
+        (lsp-lens-mode)
+        )))
       (add-hook 'haskell-mode-hook 'lsp)
       (setq lsp-haskell-process-path-hie "haskell-language-server")
+      (setq lsp-keymap-prefix "\C-c\C-l")
       (autoload 'lsp-haskell "lsp-haskell" nil t)
       (setq default-input-method "japanese-anthy")
       (define-key global-map [?¥] nil)
@@ -64,9 +69,11 @@ in
     epkgs.flycheck
     epkgs.flycheck-haskell
     epkgs.haskell-mode
+    epkgs.avy
     epkgs.lsp-mode
     epkgs.lsp-ui
     epkgs.lsp-haskell
     epkgs.yasnippet
+    epkgs.elm-mode
     (my-config epkgs)
   ])

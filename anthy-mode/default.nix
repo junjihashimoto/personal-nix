@@ -1,4 +1,4 @@
-{ stdenv, fetchgit,pkgs }:
+{ stdenv, lib, fetchgit,pkgs }:
 
 stdenv.mkDerivation {
   name = "anthy-mode";
@@ -14,6 +14,6 @@ stdenv.mkDerivation {
   meta = {
     description = "Anthy";
     homepage = https://github.com/xorgy/anthy;
-    platforms = stdenv.lib.platforms.all;
+    platforms = lib.platforms.all;
   };
 }

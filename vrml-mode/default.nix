@@ -1,4 +1,4 @@
-{ stdenv, fetchgit,pkgs }:
+{ stdenv, lib, fetchgit,pkgs }:
 
 stdenv.mkDerivation {
   name = "vrml-mode";
@@ -12,6 +12,6 @@ stdenv.mkDerivation {
 
   meta = {
     description = "vrml-mode";
-    platforms = stdenv.lib.platforms.all;
+    platforms = lib.platforms.all;
   };
 }
