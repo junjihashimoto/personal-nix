@@ -50,6 +50,11 @@ the sequence, and its index within the sequence."
                (funcall function elt index)
                (setq index (1+ index)))
              sequence)))
+    (when (require 'ansi-color nil t)
+      (defun my-colorize-compilation-buffer ()
+        (when (eq major-mode 'compilation-mode)
+          (ansi-color-apply-on-region compilation-filter-start (point-max))))
+      (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))    
     '';
   });
 in
